@@ -244,12 +244,12 @@ README.md                               → ./
 
 Para verificar que todo está correcto en el repositorio:
 
-- [ ] Mover archivos al repositorio
-- [ ] Crear directorios vacíos: `src/Widgets`, `src/Actions`, `src/Contracts`, `src/Concerns`, `resources/views`
-- [ ] Ejecutar `composer install` (fallará por falta de `core` y `geometries` - normal)
-- [ ] Verificar que `composer.json` tiene repositorios locales correctos
-- [ ] Commit y push al repositorio
-- [ ] Actualizar submodule en el monorepo principal
+- [X] Mover archivos al repositorio
+- [X] Crear directorios vacíos: `src/Widgets`, `src/Actions`, `src/Contracts`, `src/Concerns`, `resources/views`
+- [X] Ejecutar `composer install` (fallará por falta de `core` y `geometries` - normal)
+- [X] Verificar que `composer.json` tiene repositorios locales correctos
+- [X] Commit y push al repositorio
+- [X] Actualizar submodule en el monorepo principal
 
 ---
 
