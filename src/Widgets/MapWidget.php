@@ -210,6 +210,16 @@ abstract class MapWidget extends Widget
     }
 
     /**
+     * Get cached header actions.
+     * 
+     * @return array
+     */
+    protected function getCachedHeaderActions(): array
+    {
+        return [];
+    }
+
+    /**
      * Refresh the widget.
      * 
      * This method can be called to force a refresh of the widget's data.
