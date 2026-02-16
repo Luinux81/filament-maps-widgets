@@ -40,19 +40,23 @@ use Webbingbrasil\FilamentMaps\Actions\ZoomAction;
 ### Estado de la Nueva Arquitectura
 
 ✅ **Core (`livewire-maps-core`)**: Completo
+
 - `LivewireMap` component con soporte single/multi marker
 - Integración Alpine.js + Leaflet
 - 13 tests unitarios
 
 ✅ **Geometries (`map-geometries`)**: Completo
+
 - `Marker` class con Fluent API
 - `MarkerCollection` con Iterator/Countable
 - 36 tests unitarios
 
 ⚠️ **Fields (`filament-maps-fields`)**: Estructura básica
+
 - Solo ServiceProvider, sin componentes
 
 ❌ **Widgets (`filament-maps-widgets`)**: Vacío
+
 - Repositorio inicializado pero sin código
 
 ---
@@ -62,12 +66,14 @@ use Webbingbrasil\FilamentMaps\Actions\ZoomAction;
 ### Paquete `webbingbrasil/filament-maps`
 
 **Características:**
+
 - Widget base: `MapWidget`
 - Sistema de Actions (ZoomAction, etc.)
 - Clase `Marker` propia
 - Integración directa con Filament
 
 **Limitaciones identificadas:**
+
 - Acoplamiento fuerte con Filament
 - No hay separación entre lógica de mapa y widget
 - Sin soporte modular para diferentes tipos de geometrías
@@ -75,6 +81,7 @@ use Webbingbrasil\FilamentMaps\Actions\ZoomAction;
 ### Nueva Arquitectura (Tu Sistema)
 
 **Ventajas:**
+
 - ✅ Separación de responsabilidades (Core, Geometries, Fields, Widgets)
 - ✅ `Marker` reutilizable y testeable en `map-geometries`
 - ✅ `LivewireMap` component en Core (independiente de Filament)
@@ -87,7 +94,7 @@ use Webbingbrasil\FilamentMaps\Actions\ZoomAction;
 ### 1. Funcionalidades del `MapWidget` (webbingbrasil)
 
 | Funcionalidad | Estado en Nueva Arquitectura | Acción Requerida |
-|---------------|------------------------------|------------------|
+| ------------- | ---------------------------- | ---------------- |
 | `getMapCenter()` | ✅ Existe en `LivewireMap` | Reutilizar |
 | `getMapZoom()` | ✅ Existe en `LivewireMap` | Reutilizar |
 | `getMapOptions()` | ✅ Existe en `LivewireMap` | Adaptar maxBounds |
@@ -98,7 +105,7 @@ use Webbingbrasil\FilamentMaps\Actions\ZoomAction;
 ### 2. Funcionalidades Específicas de `NegociosMap`
 
 | Funcionalidad | Complejidad | Notas |
-|---------------|-------------|-------|
+| ------------- | ----------- | ----- |
 | Filtrado dinámico | Media | Delegar a `NegociosMapWithFilters` |
 | Listeners Livewire | Baja | Mantener en widget |
 | Popups personalizados | Media | Usar `Marker::popup()` existente |
@@ -109,7 +116,7 @@ use Webbingbrasil\FilamentMaps\Actions\ZoomAction;
 ### 3. Funcionalidades de `NegociosMapWithFilters`
 
 | Funcionalidad | Estrategia |
-|---------------|-----------|
+| ------------- | --------- |
 | Formulario Filament | ✅ Mantener - es específico de la aplicación |
 | Renderizar widget hijo | ✅ Adaptar al nuevo `MapWidget` |
 | `clearFilters()` | ✅ Mantener |
@@ -121,7 +128,7 @@ use Webbingbrasil\FilamentMaps\Actions\ZoomAction;
 
 ### Estructura del Paquete `filament-maps-widgets`
 
-```
+```shell
 packages/widgets/
 ├── src/
 │   ├── FilamentMapsWidgetsServiceProvider.php
@@ -164,6 +171,7 @@ packages/widgets/
 ### FASE 1: Setup Inicial del Paquete Widgets (1-2 días) ✅
 
 #### Paso 1.1: Estructura Base
+
 ```bash
 # En el repo filament-maps-widgets
 mkdir -p src/{Widgets,Actions,Contracts,Concerns}
@@ -173,6 +181,7 @@ mkdir -p config
 ```
 
 #### Paso 1.2: Composer Configuration
+
 ```json
 {
   "name": "lbcdev/filament-maps-widgets",
@@ -193,6 +202,7 @@ mkdir -p config
 ```
 
 #### Paso 1.3: ServiceProvider
+
 - Auto-discovery
 - Registrar vistas
 - Publicar configuración
@@ -205,6 +215,7 @@ mkdir -p config
 #### Paso 2.1: Crear `MapWidget.php`
 
 **Responsabilidades:**
+
 - Extender `Filament\Widgets\Widget`
 - Usar `LivewireMap` del paquete Core
 - Proveer API para configurar mapa
@@ -364,6 +375,7 @@ class ZoomAction extends Action
 #### Paso 4.1: Refactorizar `NegociosMap`
 
 **ANTES (webbingbrasil):**
+
 ```php
 class NegociosMap extends MapWidget  // webbingbrasil
 {
@@ -376,6 +388,7 @@ class NegociosMap extends MapWidget  // webbingbrasil
 ```
 
 **DESPUÉS (nueva arquitectura):**
+
 ```php
 namespace App\Filament\Widgets;
 
@@ -471,6 +484,7 @@ class NegociosMap extends MapWidget
 #### Paso 4.2: Mantener `NegociosMapWithFilters` sin cambios
 
 Este widget NO necesita migración porque:
+
 - Es específico de tu aplicación
 - Solo gestiona filtros y delega al `NegociosMap`
 - Solo necesita actualizar la referencia al nuevo `NegociosMap`
@@ -513,7 +527,8 @@ it('renders map widget in Filament panel', function () {
 
 ### FASE 6: Documentación (1-2 días)
 
-#### README.md completo con:
+#### README.md completo con
+
 - Instalación
 - Quickstart
 - API reference
@@ -525,7 +540,7 @@ it('renders map widget in Filament panel', function () {
 ## 📊 COMPARATIVA: Antes vs Después
 
 | Aspecto | Antigua (webbingbrasil) | Nueva (lbcdev) |
-|---------|------------------------|----------------|
+| ------- | ---------------------- | -------------- |
 | **Acoplamiento** | Alto (todo en un paquete) | Bajo (modular) |
 | **Testabilidad** | Baja (dependencias acopladas) | Alta (separación de concerns) |
 | **Reutilización** | Solo en Filament | Core reutilizable fuera de Filament |
@@ -540,11 +555,13 @@ it('renders map widget in Filament panel', function () {
 ### 1. **Separación de Responsabilidades**
 
 ❌ **NO incluir en el paquete Widgets:**
+
 - Lógica de negocio específica (cambiar suscripciones, cache invalidation)
 - Queries Eloquent específicas de la aplicación
 - Validaciones de dominio
 
 ✅ **SÍ incluir en el paquete Widgets:**
+
 - Widget base extensible
 - Sistema de acciones reutilizable
 - Configuración del mapa
@@ -586,29 +603,33 @@ protected function getMapOptions(): array { return [...]; }
 ## 🎯 PRIORIDADES RECOMENDADAS
 
 ### 🔥 CRÍTICAS (Semana 1)
+
 1. ✅ Estructura básica del paquete Widgets
 2. ✅ `MapWidget` base funcional
 3. ✅ Integración con `LivewireMap` (Core)
 4. ✅ Migrar `NegociosMap` a nueva arquitectura
 
 ### ⚡ IMPORTANTES (Semana 2)
-5. Sistema de Actions básico (ZoomAction)
-6. Tests unitarios de `MapWidget`
-7. Documentación básica (README)
+
+1. Sistema de Actions básico (ZoomAction)
+2. Tests unitarios de `MapWidget`
+3. Documentación básica (README)
 
 ### 💡 OPCIONALES (Semana 3+)
-8. Actions adicionales (Fullscreen, Locate)
-9. Tests de integración con Filament
-10. Documentación avanzada y ejemplos
+
+1. Actions adicionales (Fullscreen, Locate)
+2. Tests de integración con Filament
+3. Documentación avanzada y ejemplos
 
 ---
 
 ## 📝 CHECKLIST DE MIGRACIÓN
 
 ### Paquete Widgets
-- [ ] Crear estructura de directorios
-- [ ] Configurar `composer.json`
-- [ ] Crear `ServiceProvider`
+
+- [X] Crear estructura de directorios
+- [X] Configurar `composer.json`
+- [X] Crear `ServiceProvider`
 - [ ] Implementar `MapWidget` base
 - [ ] Sistema de Actions (ZoomAction mínimo)
 - [ ] Vista `map-widget.blade.php`
@@ -616,6 +637,7 @@ protected function getMapOptions(): array { return [...]; }
 - [ ] README completo
 
 ### Aplicación (mia-webapp)
+
 - [ ] Actualizar `composer.json` (añadir `lbcdev/filament-maps-widgets`)
 - [ ] Refactorizar `NegociosMap`
 - [ ] Verificar `NegociosMapWithFilters` (debería funcionar sin cambios)
@@ -624,6 +646,7 @@ protected function getMapOptions(): array { return [...]; }
 - [ ] Remover dependencia `webbingbrasil/filament-maps`
 
 ### Monorepo
+
 - [ ] Añadir submodule `packages/widgets`
 - [ ] Actualizar documentación global
 - [ ] CI/CD para nuevo paquete
@@ -633,49 +656,17 @@ protected function getMapOptions(): array { return [...]; }
 
 ## 🚀 PRÓXIMOS PASOS INMEDIATOS
 
-### Paso 1: Confirmar el Plan
-- Revisar este análisis
-- Ajustar prioridades si es necesario
-- Confirmar enfoque modular
+### Paso 1: Confirmar el Plan (Completado)
 
-### Paso 2: Setup del Paquete (Hoy)
-```bash
-cd packages/widgets
-# Crear estructura básica
-# Configurar composer.json
-# Crear ServiceProvider
-```
+### Paso 2: Setup del Paquete (Completado)
 
 ### Paso 3: Implementar MapWidget Base (Mañana)
+
 - Extender `Filament\Widgets\Widget`
 - Integrar con `LivewireMap`
 - API pública inicial
 
 ### Paso 4: Primera Migración (Día 3)
+
 - Migrar `NegociosMap` como caso de prueba
 - Verificar que funciona igual que antes
-
----
-
-## 💬 PREGUNTAS PARA CONFIRMAR
-
-1. **¿Quieres mantener 100% de compatibilidad con la API de webbingbrasil?**
-   - Ventaja: Migración más fácil
-   - Desventaja: Menos flexibilidad en diseño
-
-2. **¿Prefieres migrar incrementalmente o "big bang"?**
-   - Incremental: Primero Widgets, luego Fields
-   - Big Bang: Ambos paquetes a la vez
-
-3. **¿Qué nivel de prioridad tiene el sistema de Actions?**
-   - Alta: Implementar ZoomAction, FullscreenAction, etc.
-   - Media: Solo ZoomAction por ahora
-   - Baja: Dejar para después
-
-4. **¿Necesitas soporte para clustering de markers?**
-   - Sí: Planificar desde ahora
-   - No: Implementar más adelante
-
----
-
-**¿Confirmamos este plan y empezamos con la Fase 1?** 🚀
