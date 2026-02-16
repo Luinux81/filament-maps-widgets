@@ -43,7 +43,7 @@ abstract class MapWidget extends Widget
      * 
      * @var view-string
      */
-    protected string $view = 'filament-maps-widgets::map-widget';
+    protected static string $view = 'filament-maps-widgets::map-widget';
 
     /**
      * The number of columns the widget should span.
