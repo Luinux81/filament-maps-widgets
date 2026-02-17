@@ -13,13 +13,11 @@
 <x-filament-widgets::widget>
     <x-filament::section
         :heading="$this->getHeading()"
-        :header-actions="$this->getCachedHeaderActions()"
     >
         {{-- Map Container --}}
         <div 
             class="relative"
             style="height: {{ $height }}"
-            wire:ignore
         >
             {{-- Livewire Map Component from Core Package --}}
             @livewire('livewire-map', [
@@ -27,7 +25,6 @@
                 'center' => $mapConfig['center'],
                 'zoom' => $mapConfig['zoom'],
                 'options' => $mapConfig['options'],
-                'height' => $height,
             ], key($this->getId() . '-map'))
 
             {{-- Map Actions/Controls --}}

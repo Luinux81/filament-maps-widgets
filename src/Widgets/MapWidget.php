@@ -43,7 +43,7 @@ abstract class MapWidget extends Widget
      * 
      * @var view-string
      */
-    protected static string $view = 'filament-maps-widgets::map-widget';
+    protected string $view = 'filament-maps-widgets::map-widget';
 
     /**
      * The number of columns the widget should span.
@@ -207,16 +207,6 @@ abstract class MapWidget extends Widget
     protected function getHeading(): ?string
     {
         return null;
-    }
-
-    /**
-     * Get cached header actions.
-     * 
-     * @return array
-     */
-    protected function getCachedHeaderActions(): array
-    {
-        return [];
     }
 
     /**
